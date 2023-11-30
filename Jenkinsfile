@@ -22,7 +22,7 @@ pipeline {
       steps {
         cleanWs()
         echo 'Checking out code from Git'
-        checkout scmGit(branches: [ [name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_credentials', url: 'https://github.com/git01h/terrafform_back.git']])
+        checkout scmGit(branches: [ [name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_credentials', url: 'https://github.com/git01h/terrafform_backend.git']])
       }
       }
     
