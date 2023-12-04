@@ -18,6 +18,21 @@ pipeline {
     BACKEND_CONFIG_FILE = 'backend.tf'
   }
   stages {
+      stage('Run in Docker Container') {
+    agent {
+      docker {
+        image 'jenkins/jenkins:latest'
+      }
+    }
+    steps {
+      script {
+        // Install Terraform within the Docker container
+        sh 'curl -LO https://releases.hashicorp.com/terraform/0.14.11/terraform_0.14.11_linux_amd64.zip'
+        sh 'unzip terraform_0.14.11_linux_amd64.zip'
+        sh 'mv terraform /usr/local/bin/'
+      }
+    }
+  }
     stage('Checkout') {
       steps {
         cleanWs()
