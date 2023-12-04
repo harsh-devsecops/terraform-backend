@@ -1,7 +1,7 @@
 parameters {
-  choice choices: ['Plan', 'Apply', 'Destroy', 'State', 'import'], description: 'Select Terraform Action', name: 'choice'
-  string  description: 'terraform, dev, sbx', name: 'ENVIRONMENT'
-  string description: 'Type the Argument', name: 'Arguments'
+  choice(choices: ['Plan', 'Apply', 'Destroy', 'State', 'import'], description: 'Select Terraform Action', name: 'choice')
+  string (description: 'terraform, dev, sbx', name: 'ENVIRONMENT')
+  string(description: 'Type the Argument', name: 'Arguments')
 }
 
 pipeline {
