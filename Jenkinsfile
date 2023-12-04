@@ -33,7 +33,7 @@ pipeline {
                 script {
                     sshagent(['docker-host-keys']) {
                         // Modify the following line based on your specific Terraform commands
-                        sh "ssh -v -o StrictHostKeyChecking=no -o PreferredAuthentications=publickey -i ${SSH_KEY} root@172.25.10.139 black -a"
+                        sh 'ssh -v -o StrictHostKeyChecking=no -o  root@172.25.10.139 black -a'
 
                     }
                 }
