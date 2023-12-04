@@ -21,7 +21,7 @@ pipeline {
       stage('Run in Docker Container') {
     agent {
       docker {
-        image 'jenkins/jenkins:latest'
+        image 'jenkins/jenkins'
       }
     }
     steps {
