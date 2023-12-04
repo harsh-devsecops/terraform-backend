@@ -24,7 +24,7 @@ pipeline {
           // Install Terraform (adjust the version if needed)
           sh 'curl -LO https://releases.hashicorp.com/terraform/0.14.11/terraform_0.14.11_linux_amd64.zip'
           sh 'unzip terraform_0.14.11_linux_amd64.zip'
-          sh 'mv terraform /usr/local/bin/'
+          sh 'mv terraform C:\jenkinsdocker3\Jenkins_Home\workspace\docker jenkins pipeline'
         }
       }
     }
