@@ -5,8 +5,13 @@ parameters {
 }
 
 pipeline {
-  agent any
-  
+  agent {
+  docker {
+    alwaysPull true
+    image 'hashicorp/terraform:latest'
+    label 'dockeragentrun'
+  }
+}
   options {
     ansiColor('css')
   }
