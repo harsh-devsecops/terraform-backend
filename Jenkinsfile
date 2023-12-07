@@ -19,9 +19,9 @@ pipeline {
     ARM_CLIENT_ID = credentials('CLIENT_ID')
     ARM_CLIENT_SECRET = credentials('CLIENT_SECRET')
     BACKEND_CONFIG_FILE = 'backend.tf'
-     SSH_KEY = credentials('docker-host-keys') 
-        REMOTE_HOST = 'root'
-        TERRAFORM_PATH = '/usr/local/bin/terraform'
+     // SSH_KEY = credentials('docker-host-keys') 
+     //    REMOTE_HOST = 'root'
+     //    TERRAFORM_PATH = '/usr/local/bin/terraform'
   }
   stages {
     stage('Checkout') {
@@ -31,17 +31,17 @@ pipeline {
         checkout scmGit(branches: [ [name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_credentials', url: 'https://github.com/git01h/terraform-backend.git']])
       }
       }
-    stage('Execute Terraform Commands on Remote') {
-            steps {
-                script {
-                    sshagent(['docker-host-keys']) {
-                        // Modify the following line based on your specific Terraform commands
-                        sh 'ssh -v -o StrictHostKeyChecking=no -l root 172.25.10.139  black -a'
+    // stage('Execute Terraform Commands on Remote') {
+    //         steps {
+    //             script {
+    //                 sshagent(['docker-host-keys']) {
+    //                     // Modify the following line based on your specific Terraform commands
+    //                     sh 'ssh -v -o StrictHostKeyChecking=no -l root 172.25.10.139  black -a'
 
-                    }
-                }
-            }
-        }
+    //                 }
+    //             }
+    //         }
+    //     }
     
     stage('Terraform init') {
       steps {
