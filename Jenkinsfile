@@ -6,9 +6,7 @@ parameters {
 
 pipeline {
   agent any
-  tools {
-        terraform 'Terraform'
-    }
+  
   options {
     ansiColor('css')
   }
