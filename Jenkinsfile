@@ -1,10 +1,10 @@
-parameters {
+
+pipeline {
+  parameters {
   choice(name: 'choice', choices: ['Plan', 'Apply', 'Destroy', 'State', 'Import'], description: 'Select Terraform Action')
   string(name: 'ENVIRONMENT', description: 'terraform, dev, sbx')
   string(name: 'Arguments', description: 'Type the Argument')
 }
-
-pipeline {
   agent {
   docker {
     alwaysPull true
