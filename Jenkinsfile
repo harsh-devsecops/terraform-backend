@@ -9,7 +9,7 @@ pipeline {
   
     // alwaysPull true
     // image 'hashicorp/terraform:latest'
-    label 'dockeragentrun'
+    label 'docker-agentrun'
   
 }
   options {
