@@ -54,6 +54,7 @@ agent {
         }
       }
     }
+    }
     stage('terraform validate') {
       steps {
         script {
