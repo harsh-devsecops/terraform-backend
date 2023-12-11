@@ -27,6 +27,18 @@ agent {
      //    TERRAFORM_PATH = '/usr/local/bin/terraform'
   }
   stages {
+    stage('Initialize Docker') {
+            steps {
+                script {
+                    // Load the Docker tool into the environment
+                    def dockerHome = tool 'myDocker'
+                    env.PATH = "${dockerHome}/bin:${env.PATH}"
+
+                    // Check if Docker is available
+                    docker version()
+                }
+            }
+        }
     stage('Checkout') {
       steps {
         cleanWs()
@@ -49,13 +61,12 @@ agent {
     stage('Terraform init') {
       steps {
         script {
-          docker.image('hashicorp/terraform').withRun('-v ${WORKSPACE}:/workspace') { c ->
-          sh "cd /workspace && terraform init -backend-config=key=${params.ENVIRONMENT}.tfstate"
+          sh "terraform init -backend-config=key=${params.ENVIRONMENT}.tfstate"
 
         }
       }
     }
-    }
+    
     stage('terraform validate') {
       steps {
         script {
