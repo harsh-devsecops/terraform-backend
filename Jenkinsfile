@@ -29,12 +29,16 @@ agent {
     stage('Initialize Docker') {
             steps {
                 script {
+                   echo 'Checking environment'
+                    sh 'echo $PATH'
+                    sh 'which docker'
+                    sh 'docker version'
                     // Load the Docker tool into the environment
                     def dockerHome = tool 'myDocker'
                     env.PATH = "${dockerHome}/bin:${env.PATH}"
 
                     // Check if Docker is available
-                    echo 'docker version()'
+                    docker version()
                 }
             }
         }
