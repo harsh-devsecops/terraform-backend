@@ -26,22 +26,6 @@ agent {
      //    TERRAFORM_PATH = '/usr/local/bin/terraform'
   }
   stages {
-    stage('Initialize Docker') {
-            steps {
-                script {
-                   echo 'Checking environment'
-                    sh 'echo $PATH'
-                    sh 'which docker'
-                    sh 'docker version'
-                    // Load the Docker tool into the environment
-                    def dockerHome = tool 'myDocker'
-                    env.PATH = "${dockerHome}/bin:${env.PATH}"
-
-                    // Check if Docker is available
-                    docker version()
-                }
-            }
-        }
     stage('Checkout') {
       steps {
         cleanWs()
@@ -49,18 +33,6 @@ agent {
         checkout scmGit(branches: [ [name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_credentials', url: 'https://github.com/git01h/terraform-backend.git']])
       }
       }
-    // stage('Execute Terraform Commands on Remote') {
-    //         steps {
-    //             script {
-    //                 sshagent(['docker-host-keys']) {
-    //                     // Modify the following line based on your specific Terraform commands
-    //                     sh 'ssh -v -o StrictHostKeyChecking=no -l root 172.25.10.139  black -a'
-
-    //                 }
-    //             }
-    //         }
-    //     }
-    
     stage('Terraform init') {
       steps {
         script {
