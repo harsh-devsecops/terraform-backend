@@ -9,6 +9,7 @@ agent {
   docker {
     image 'hashicorp/terraform'
     label 'terraform-agent'
+    args '-v ${WORKSPACE}:/workspace'
   }
 }
   options {
