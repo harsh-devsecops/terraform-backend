@@ -8,8 +8,7 @@ pipeline {
 agent {
   docker {
     image 'hashicorp/terraform'
-    label 'docker-agentrun'
-    reuseNode true
+    label 'terraform-agent'
   }
 }
   options {
