@@ -48,6 +48,7 @@ agent {
     stage('Terraform init') {
       steps {
         script {
+          docker.image('hashicorp/terraform').withRun('-v ${WORKSPACE}:/workspace') { c ->
           sh "terraform init -backend-config=key=${params.ENVIRONMENT}.tfstate"
 
         }
