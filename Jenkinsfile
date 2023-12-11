@@ -6,11 +6,11 @@ pipeline {
   string(name: 'Arguments', description: 'Type the Argument')
 }
   agent {
-  docker {
+  
     // alwaysPull true
     // image 'hashicorp/terraform:latest'
     label 'dockeragentrun'
-  }
+  
 }
   options {
     ansiColor('css')
