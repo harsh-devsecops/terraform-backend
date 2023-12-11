@@ -9,7 +9,6 @@ agent {
   docker {
     image 'hashicorp/terraform'
     label 'terraform-agent'
-    args '-v ${WORKSPACE}:/workspace'
   }
 }
   options {
@@ -35,7 +34,7 @@ agent {
                     env.PATH = "${dockerHome}/bin:${env.PATH}"
 
                     // Check if Docker is available
-                    docker version()
+                    echo 'docker version()'
                 }
             }
         }
