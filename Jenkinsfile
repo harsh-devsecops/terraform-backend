@@ -5,12 +5,12 @@ pipeline {
   string(name: 'ENVIRONMENT', description: 'terraform, dev, sbx')
   string(name: 'Arguments', description: 'Type the Argument')
 }
-  agent {
-  
-    // alwaysPull true
-    // image 'hashicorp/terraform:latest'
+agent {
+  docker {
+    image 'hashicorp/terraform'
     label 'docker-agentrun'
-  
+    reuseNode true
+  }
 }
   options {
     ansiColor('css')
