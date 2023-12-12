@@ -33,6 +33,14 @@ agent any
         checkout scmGit(branches: [ [name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_credentials', url: 'https://github.com/git01h/terraform-backend.git']])
       }
       }
+    stage('Install Docker') {
+            steps {
+                script {
+                    // Install Docker inside the Jenkins container
+                    sh 'apk add docker'
+                }
+            }
+        }
     stage('Install Terraform') {
             steps {
                 script {
