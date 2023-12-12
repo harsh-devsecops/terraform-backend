@@ -6,13 +6,13 @@ pipeline {
   string(name: 'Arguments', description: 'Type the Argument')
 }
 agent any 
-//   {
+  {
   
     
-//     label 'terraform-agent'
+    label 'terraform-agent'
     
   
-// }
+}
   options {
     ansiColor('css')
   }
@@ -23,7 +23,6 @@ agent any
     ARM_CLIENT_ID = credentials('CLIENT_ID')
     ARM_CLIENT_SECRET = credentials('CLIENT_SECRET')
     BACKEND_CONFIG_FILE = 'backend.tf'
-     TERRAFORM_IMAGE = 'hashicorp/terraform:latest'
   }
   stages {
     stage('Checkout') {
@@ -33,38 +32,6 @@ agent any
         checkout scmGit(branches: [ [name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_credentials', url: 'https://github.com/git01h/terraform-backend.git']])
       }
       }
-    stage('Install Docker') {
-    steps {
-        script {
-            // Check if Docker CLI is available
-            def dockerCLI = bat(script: 'where docker', returnStatus: true)
-            
-            if (dockerCLI != 0) {
-                error 'Docker CLI not found. Please make sure Docker Desktop is installed and available in your PATH.'
-            }
-
-            // Check if Docker daemon is accessible
-            def dockerInfo = bat(script: 'docker info', returnStatus: true)
-            
-            if (dockerInfo != 0) {
-                error 'Unable to connect to the Docker daemon. Make sure Docker Desktop is running.'
-            }
-
-            echo 'Docker is installed and running.'
-        }
-    }
-}
-    stage('Install Terraform') {
-            steps {
-                script {
-                    docker.image(TERRAFORM_IMAGE).inside {
-                        sh 'terraform --version || true' // Check if Terraform is already installed
-                        sh 'apt-get update && apt-get install -y unzip'
-                        sh 'terraform --version || curl -fsSL https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip -o terraform.zip && unzip terraform.zip && mv terraform /usr/local/bin/ && terraform --version'
-                    }
-                }
-            }
-        }
     stage('Terraform init') {
       steps {
         script {
@@ -73,7 +40,6 @@ agent any
         }
       }
     }
-    
     stage('terraform validate') {
       steps {
         script {
@@ -83,7 +49,6 @@ agent any
     }
     stage('Terraform Plan') {
       when {
-
         expression {
           choice == 'Plan' || 'Apply' || 'Destroy' && currentBuild.resultIsBetterOrEqualTo('SUCCESS')
         }
@@ -96,7 +61,6 @@ agent any
         }
       }
     }
-
     stage(' Terraform Apply') {
       when {
 
