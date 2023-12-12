@@ -5,13 +5,14 @@ pipeline {
   string(name: 'ENVIRONMENT', description: 'terraform, dev, sbx')
   string(name: 'Arguments', description: 'Type the Argument')
 }
-agent  {
+agent any 
+//   {
   
     
-    label 'terraform-agent'
+//     label 'terraform-agent'
     
   
-}
+// }
   options {
     ansiColor('css')
   }
@@ -22,11 +23,23 @@ agent  {
     ARM_CLIENT_ID = credentials('CLIENT_ID')
     ARM_CLIENT_SECRET = credentials('CLIENT_SECRET')
     BACKEND_CONFIG_FILE = 'backend.tf'
-     // SSH_KEY = credentials('docker-host-keys') 
-     //    REMOTE_HOST = 'root'
-     //    TERRAFORM_PATH = '/usr/local/bin/terraform'
+    TERRAFORM_HOME = 'C:\\Terraform'
+        TERRAFORM_VERSION = '0.15.5'
   }
   stages {
+    stage('Install Terraform') {
+            steps {
+                bat '''
+                    mkdir %TERRAFORM_HOME%
+                    cd %TERRAFORM_HOME%
+                    
+                    # Download and install Terraform
+                    Invoke-WebRequest -Uri "https://releases.hashicorp.com/terraform/%TERRAFORM_VERSION%/terraform_%TERRAFORM_VERSION%_windows_amd64.zip" -OutFile terraform.zip
+                    Expand-Archive -Path .\terraform.zip -DestinationPath %TERRAFORM_HOME%
+                    Remove-Item terraform.zip
+                '''
+            }
+        }
     stage('Checkout') {
       steps {
         cleanWs()
