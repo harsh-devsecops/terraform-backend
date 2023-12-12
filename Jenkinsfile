@@ -8,8 +8,8 @@ pipeline {
 agent  
   {
   
-    label 'docker-desktop'
-    label 'terraform-agent'
+    label 'docker'
+    
     
   
 }
@@ -35,8 +35,9 @@ agent
     stage('Terraform init') {
       steps {
         script {
+          docker.image('hashicorp/terraform:latest').inside {
           sh "terraform init -backend-config=key=${params.ENVIRONMENT}.tfstate"
-
+          }
         }
       }
     }
