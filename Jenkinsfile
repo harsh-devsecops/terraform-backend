@@ -9,6 +9,7 @@ agent {
   docker {
     image 'hashicorp/terraform'
     label 'terraform-agent'
+    args '-v ${WORKSPACE}:/workspace'
   }
 }
   options {
@@ -26,6 +27,26 @@ agent {
      //    TERRAFORM_PATH = '/usr/local/bin/terraform'
   }
   stages {
+    stage('Check and Install Docker') {
+            steps {
+                script {
+                    // Set Docker binary path
+                    env.PATH = "${tool 'myDocker'}/bin:${env.PATH}"
+
+                    // Check if Docker is installed
+                    def dockerInstalled = sh(script: 'which docker', returnStatus: true) == 0
+
+                    if (!dockerInstalled) {
+                        error 'Docker not found. Please make sure Docker is installed.'
+                    } else {
+                        echo 'Docker is already installed.'
+                    }
+
+                    // Print Docker version for verification
+                    sh 'docker version'
+                }
+            }
+        }
     stage('Checkout') {
       steps {
         cleanWs()
