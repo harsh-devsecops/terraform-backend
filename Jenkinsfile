@@ -8,7 +8,7 @@ pipeline {
 agent  
   {
   
-    label 'docker-desktop'
+    label 'terraform-agent'
     
     
   
