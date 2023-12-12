@@ -23,21 +23,19 @@ agent any
     ARM_CLIENT_ID = credentials('CLIENT_ID')
     ARM_CLIENT_SECRET = credentials('CLIENT_SECRET')
     BACKEND_CONFIG_FILE = 'backend.tf'
-    TERRAFORM_HOME = 'C:\\Terraform'
-        TERRAFORM_VERSION = '0.15.5'
+     TERRAFORM_VERSION = '0.15.5'  // Set the desired Terraform version
+        TERRAFORM_HOME = tool 'Terraform'
+        PATH = "$TERRAFORM_HOME:$PATH"
   }
   stages {
     stage('Install Terraform') {
             steps {
-                bat '''
-                    mkdir %TERRAFORM_HOME%
-                    cd %TERRAFORM_HOME%
-                    
-                    # Download and install Terraform
-                    Invoke-WebRequest -Uri "https://releases.hashicorp.com/terraform/%TERRAFORM_VERSION%/terraform_%TERRAFORM_VERSION%_windows_amd64.zip" -OutFile terraform.zip
-                    Expand-Archive -Path .\terraform.zip -DestinationPath %TERRAFORM_HOME%
-                    Remove-Item terraform.zip
-                '''
+                 script {
+                    // Install Terraform
+                    def tfHome = tool name: 'Terraform', type: 'org.jenkinsci.plugins.tools.ToolInstallation'
+                    env.TERRAFORM_HOME = "${tfHome}/bin"
+                    env.PATH = "${env.TERRAFORM_HOME}:${env.PATH}"
+                }
             }
         }
     stage('Checkout') {
