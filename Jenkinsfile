@@ -6,11 +6,11 @@ pipeline {
   string(name: 'Arguments', description: 'Type the Argument')
 }
 agent  {
-  docker{
-    image 'hashicorp/terraform'
+  
+    
     label 'terraform-agent'
-    args '-v ${WORKSPACE}:/workspace'
-  }
+    
+  
 }
   options {
     ansiColor('css')
