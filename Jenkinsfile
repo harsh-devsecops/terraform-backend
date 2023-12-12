@@ -5,7 +5,7 @@ pipeline {
   string(name: 'ENVIRONMENT', description: 'terraform, dev, sbx')
   string(name: 'Arguments', description: 'Type the Argument')
 }
-agent any 
+agent  
   {
   
     
