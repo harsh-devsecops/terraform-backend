@@ -34,13 +34,26 @@ agent any
       }
       }
     stage('Install Docker') {
-            steps {
-                script {
-                    // Install Docker inside the Jenkins container
-                    sh 'apk add docker'
-                }
+    steps {
+        script {
+            // Check if Docker CLI is available
+            def dockerCLI = bat(script: 'where docker', returnStatus: true)
+            
+            if (dockerCLI != 0) {
+                error 'Docker CLI not found. Please make sure Docker Desktop is installed and available in your PATH.'
             }
+
+            // Check if Docker daemon is accessible
+            def dockerInfo = bat(script: 'docker info', returnStatus: true)
+            
+            if (dockerInfo != 0) {
+                error 'Unable to connect to the Docker daemon. Make sure Docker Desktop is running.'
+            }
+
+            echo 'Docker is installed and running.'
         }
+    }
+}
     stage('Install Terraform') {
             steps {
                 script {
