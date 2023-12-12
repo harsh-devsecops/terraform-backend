@@ -23,21 +23,9 @@ agent any
     ARM_CLIENT_ID = credentials('CLIENT_ID')
     ARM_CLIENT_SECRET = credentials('CLIENT_SECRET')
     BACKEND_CONFIG_FILE = 'backend.tf'
-     TERRAFORM_VERSION = '0.15.5'  // Set the desired Terraform version
-        TERRAFORM_HOME = tool 'Terraform'
-        PATH = "$TERRAFORM_HOME:$PATH"
+     TERRAFORM_IMAGE = 'hashicorp/terraform:latest'
   }
   stages {
-    stage('Install Terraform') {
-            steps {
-                 script {
-                    // Install Terraform
-                    def tfHome = tool name: 'Terraform', type: 'org.jenkinsci.plugins.tools.ToolInstallation'
-                    env.TERRAFORM_HOME = "${tfHome}/bin"
-                    env.PATH = "${env.TERRAFORM_HOME}:${env.PATH}"
-                }
-            }
-        }
     stage('Checkout') {
       steps {
         cleanWs()
@@ -45,6 +33,17 @@ agent any
         checkout scmGit(branches: [ [name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_credentials', url: 'https://github.com/git01h/terraform-backend.git']])
       }
       }
+    stage('Install Terraform') {
+            steps {
+                script {
+                    docker.image(TERRAFORM_IMAGE).inside {
+                        sh 'terraform --version || true' // Check if Terraform is already installed
+                        sh 'apt-get update && apt-get install -y unzip'
+                        sh 'terraform --version || curl -fsSL https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip -o terraform.zip && unzip terraform.zip && mv terraform /usr/local/bin/ && terraform --version'
+                    }
+                }
+            }
+        }
     stage('Terraform init') {
       steps {
         script {
