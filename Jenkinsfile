@@ -29,12 +29,11 @@ agent any
     stage('Terraform init') {
       steps {
         script {
-          docker.image('hashicorp/terraform:latest').inside {
+          
           sh "terraform init -backend-config=key=${params.ENVIRONMENT}.tfstate"
           }
         }
       }
-    }
     stage('terraform validate') {
       steps {
         script {
