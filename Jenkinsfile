@@ -5,14 +5,7 @@ pipeline {
   string(name: 'ENVIRONMENT', description: 'terraform, dev, sbx')
   string(name: 'Arguments', description: 'Type the Argument')
 }
-agent  
-  {
-  
-    label 'terraform-agent'
-    
-    
-  
-}
+agent any  
   options {
     ansiColor('css')
   }
@@ -29,7 +22,8 @@ agent
       steps {
         cleanWs()
         echo 'Checking out code from Git'
-        checkout scmGit(branches: [ [name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_credentials', url: 'https://github.com/git01h/terraform-backend.git']])
+        checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/git01h/terraform-backend.git']])
+        // checkout scmGit(branches: [ [name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_credentials', url: 'https://github.com/git01h/terraform-backend.git']])
       }
       }
     stage('Terraform init') {
