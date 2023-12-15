@@ -32,7 +32,7 @@ pipeline {
       steps {
         script {
           sshagent(['jenkins']) {
-                        sh 'cd /app && terraform init'
+                        sh 'terraform init'
           // sh "terraform init -backend-config=key=${params.ENVIRONMENT}.tfstate"
           }
         }
