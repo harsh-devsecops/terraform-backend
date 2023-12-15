@@ -6,10 +6,9 @@ pipeline {
   string(name: 'Arguments', description: 'Type the Argument')
 }
  agent {
-    docker {
-            image 'terraform-ssh-image'
+  
         label 'terraform-agent'
-    }
+    
     }  
   options {
     ansiColor('css')
