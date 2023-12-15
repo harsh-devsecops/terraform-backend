@@ -31,7 +31,7 @@ pipeline {
     stage('Terraform init') {
       steps {
         script {
-          sshagent(['jenkins key']) {
+          sshagent(['jenkins']) {
                         sh 'cd /app && terraform init'
           // sh "terraform init -backend-config=key=${params.ENVIRONMENT}.tfstate"
           }
@@ -41,7 +41,7 @@ pipeline {
     stage('terraform validate') {
       steps {
         script {
-          sshagent(['jenkins key']) {
+          sshagent(['jenkins']) {
                         sh 'cd /app && terraform validate'
           }
         }
