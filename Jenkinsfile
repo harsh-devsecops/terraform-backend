@@ -42,7 +42,7 @@ pipeline {
       steps {
         script {
           sshagent(['jenkins']) {
-                        sh 'cd /app && terraform validate'
+                        sh 'terraform validate'
           }
         }
       }
