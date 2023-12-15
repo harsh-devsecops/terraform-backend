@@ -33,10 +33,11 @@ pipeline {
     stage('Terraform init') {
       steps {
         script {
-          sshagent(['jenkins']) {
-                        sh 'terraform init'
+          sh 'terraform init'
+          //sshagent(['jenkins']) {
+                     //   sh 'terraform init'
           // sh "terraform init -backend-config=key=${params.ENVIRONMENT}.tfstate"
-          }
+          //}
         }
       }
     }
