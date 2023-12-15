@@ -31,15 +31,19 @@ pipeline {
     stage('Terraform init') {
       steps {
         script {
-          sh 'terraform init'
+          sshagent(['jenkins-ssh-key']) {
+                        sh 'cd /app && terraform init'
           // sh "terraform init -backend-config=key=${params.ENVIRONMENT}.tfstate"
           }
         }
       }
+    }
     stage('terraform validate') {
       steps {
         script {
-          sh 'terraform validate'
+          sshagent(['jenkins-ssh-key']) {
+                        sh 'cd /app && terraform validate'
+          }
         }
       }
     }
