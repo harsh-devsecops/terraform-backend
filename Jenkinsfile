@@ -7,7 +7,7 @@ pipeline {
 }
  agent {
   
-        label 'terraform-agent'
+        label 'demo-docker'
     
     }  
   options {
