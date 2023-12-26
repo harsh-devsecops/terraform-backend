@@ -33,10 +33,10 @@ pipeline {
     stage('Terraform init') {
       steps {
         script {
-          withCredentials([azureServicePrincipal('Azure_service_principle')]) {
+         // withCredentials([azureServicePrincipal('Azure_service_principle')]) {
 
            sh "terraform init -backend-config=key=${params.ENVIRONMENT}.tfstate"
-        }
+       // }
       }
       }
     }
