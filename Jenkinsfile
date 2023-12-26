@@ -43,9 +43,7 @@ pipeline {
     stage('terraform validate') {
       steps {
         script {
-          sshagent(['jenkins']) {
-                        sh 'terraform validate'
-          }
+                sh 'terraform validate'
         }
       }
     }
