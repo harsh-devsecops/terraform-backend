@@ -33,12 +33,11 @@ pipeline {
     stage('Terraform init') {
       steps {
         script {
-          //sh 'terraform init'
-          //sshagent(['jenkins']) {
-                     //   sh 'terraform init'
+          withCredentials([azureServicePrincipal('Azure_service_principle')]) {
+
            sh "terraform init -backend-config=key=${params.ENVIRONMENT}.tfstate"
-          //}
         }
+      }
       }
     }
     stage('terraform validate') {
